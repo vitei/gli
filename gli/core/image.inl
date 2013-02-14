@@ -34,7 +34,8 @@ namespace gli
 		BaseFace(0), 
 		MaxFace(0), 
 		BaseLevel(0), 
-		MaxLevel(0)
+		MaxLevel(0),
+		Addressing(LINEAR)
 	{}
 
 	inline image::image
@@ -54,7 +55,8 @@ namespace gli
 		BaseFace(0), 
 		MaxFace(0), 
 		BaseLevel(0), 
-		MaxLevel(0)
+		MaxLevel(0),
+		Addressing(LINEAR)
 	{}
 
 	inline image::image
@@ -73,7 +75,8 @@ namespace gli
 		BaseFace(0), 
 		MaxFace(0), 
 		BaseLevel(0), 
-		MaxLevel(0)
+		MaxLevel(0),
+		Addressing(LINEAR)
 	{}
 
 	inline image::image
@@ -92,7 +95,8 @@ namespace gli
 		BaseFace(BaseFace), 
 		MaxFace(MaxFace), 
 		BaseLevel(BaseLevel), 
-		MaxLevel(MaxLevel)
+		MaxLevel(MaxLevel),
+		Addressing(LINEAR)
 	{}
 
 	inline image::operator storage() const
@@ -175,6 +179,27 @@ namespace gli
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	template <typename genType>
+	inline genType image::fetch(dimensions_type const & TexCoord) const
+	{
+		genType * Pointer(this->data<genType>());
+		size_type Offset(0);
+		switch(Addressing)
+		{
+		default:
+			assert(0);
+			return genType();
+		case LINEAR:
+			Offset = this->dimensions().x * this->dimensions().y * TexCoord.z + this->dimensions().y * TexCoord.y + TexCoord.x;
+			break;
+		case MORTON:
+			Offset = size_type(glm:::bitfieldInterleave(TexCoord.x, TexCoord.y, TexCoord.z));
+			break;
+		}
+
+		return *(Pointer + Offset)
 	}
 
 	inline image::size_type image::baseLayer() const

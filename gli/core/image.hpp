@@ -46,6 +46,12 @@ namespace gli
 		typedef storage::dimensions3_type dimensions_type;
 		typedef storage::size_type size_type;
 
+		enum addressing
+		{
+			LINEAR,
+			MORTON
+		};
+
 		image();
 
 		/// Allocate a new storage constructor
@@ -87,6 +93,9 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
+		template <typename genType>
+		genType fetch(dimensions_type const & TexCoord) const;
+
 		size_type baseLayer() const;
 		size_type maxLayer() const;
 		size_type baseFace() const;
@@ -102,6 +111,7 @@ namespace gli
 		size_type MaxFace;
 		size_type BaseLevel;
 		size_type MaxLevel;
+		addressing Addressing;
 	};
 }//namespace gli
 

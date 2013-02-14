@@ -38,6 +38,7 @@
 
 // GLM
 #include <glm/glm.hpp>
+#include <glm/gtx/bit.hpp>
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtx/integer.hpp>
