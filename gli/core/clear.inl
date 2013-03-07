@@ -36,7 +36,7 @@ namespace gli
 	)
 	{
 		image Result = Image;
-		for(std::size_t i = 0; i < Image.capacity() / sizeof(genType); ++i)
+        for(std::size_t i = 0; i < Image.size() / sizeof(genType); ++i)
 			Image.data<genType>()[i] = Texel;
 		return Result;
 	}

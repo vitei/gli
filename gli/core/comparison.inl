@@ -37,14 +37,14 @@ namespace detail
 			return true;
 
 		// Compare the actual data
-		for(typename texture::size_type Level = 0; Level < TextureA.levels(); ++Level)
-		for(typename texture::size_type i = 0; i < TextureA[Level].size<glm::byte>(); ++i)
-		{
-			glm::byte A = *(TextureA[Level].data<glm::byte>() + i);
-			glm::byte B = *(TextureB[Level].data<glm::byte>() + i);
-			if(A != B)
-				return false;
-		}
+        for(typename texture::size_type Level = 0; Level < TextureA.levels(); ++Level)
+        for(typename texture::size_type i = 0; i < TextureA[Level].template size<glm::byte>(); ++i)
+        {
+            glm::byte A = *(TextureA[Level].template data<glm::byte>() + i);
+            glm::byte B = *(TextureB[Level].template data<glm::byte>() + i);
+            if(A != B)
+                return false;
+        }
 
 		return true;
 	}
