@@ -105,7 +105,7 @@ namespace query
     }
 }//namespace
 
-namespace access
+namespace tex_access
 {
     int run()
     {
@@ -230,7 +230,7 @@ int main()
     Error += size::run();
     Error += query::run();
     Error += clear::run();
-    Error += access::run();
+    Error += tex_access::run();
 
 	return Error;
 }
