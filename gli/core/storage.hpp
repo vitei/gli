@@ -70,7 +70,7 @@ namespace gli
 		typedef size_t level_type;
 		typedef size_t face_type;
 		typedef gli::format format_type;
-		typedef glm::byte data_type;
+		typedef unsigned char data_type;
 		typedef glm::ivec4 swizzle_type;
 
 	public:

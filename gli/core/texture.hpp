@@ -35,11 +35,9 @@ namespace gli
 	class texture
 	{
 	public:
-		typedef storage::size_type size_type;
-		typedef storage::format_type format_type;
-		typedef storage::size_type layer_type;
-		typedef storage::size_type level_type;
-		typedef storage::size_type face_type;
+		typedef unsigned char data_type;
+		typedef size_t size_type;
+		typedef gli::format format_type;
 
 		texture();
 
@@ -208,7 +206,7 @@ namespace gli
 
 	inline bool texture::empty() const
 	{
-		return this->Storage.empty();
+		return this->data() == nullptr;
 	}
 
 	inline texture::format_type texture::format() const
@@ -264,14 +262,14 @@ namespace gli
 
 	inline void texture::clear()
 	{
-		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
+		memset(this->data<data_type>(), 0, this->size<data_type>());
 	}
 
 	template <typename genType>
 	inline void texture::clear(genType const & Texel)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(block_size(this->format()) == sizeof(genType));
 
 		genType* Data = this->data<genType>();
 		size_type const TexelCount = this->size<genType>();
@@ -285,7 +283,7 @@ namespace gli
 		size_type const offset = detail::imageAddressing(
 			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
-		return this->Storage.data() + offset;
+		return this->data<data_type>() + offset;
 	}
 
 	inline texture::size_type texture::compute_size() const

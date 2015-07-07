@@ -32,10 +32,10 @@
 
 #pragma once
 
-#define GLI_VERSION					61
+#define GLI_VERSION					70
 #define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			1
+#define GLI_VERSION_MINOR			7
+#define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
 #include "./core/storage.hpp"
