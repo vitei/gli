@@ -37,9 +37,9 @@ namespace gli
 	{}
 
 	inline storage::impl::impl(
-		layer_type const & Layers, 
-		face_type const & Faces,
-		level_type const & Levels,
+		size_type const & Layers, 
+		size_type const & Faces,
+		size_type const & Levels,
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
@@ -131,7 +131,7 @@ namespace gli
 		return &this->Impl->Data[0];
 	}
 
-	inline storage::size_type storage::level_size(level_type const & Level) const
+	inline storage::size_type storage::level_size(size_type const & Level) const
 	{
 		assert(Level < this->levels());
 
@@ -144,8 +144,7 @@ namespace gli
 	}
 
 	inline storage::size_type storage::face_size(
-		level_type const & BaseLevel,
-		level_type const & MaxLevel) const
+		size_type const & BaseLevel, size_type const & MaxLevel) const
 	{
 		assert(MaxLevel < this->levels());
 		
@@ -159,10 +158,8 @@ namespace gli
 	}
 
 	inline storage::size_type storage::layer_size(
-		face_type const & BaseFace,
-		face_type const & MaxFace,
-		level_type const & BaseLevel,
-		level_type const & MaxLevel) const
+		size_type const & BaseFace, size_type const & MaxFace,
+		size_type const & BaseLevel, size_type const & MaxLevel) const
 	{
 		assert(MaxFace < this->faces());
 		assert(MaxLevel < this->levels());
