@@ -59,7 +59,11 @@ namespace gli
 
 		bool empty() const;
 		format_type format() const;
-		
+
+		size_type width() const;
+		size_type height() const;
+		size_type depth() const;
+
 		size_type baseLayer() const;
 		size_type maxLayer() const;
 		size_type layers() const;
@@ -214,6 +218,21 @@ namespace gli
 		return this->Format;
 	}
 
+	inline texture::size_type texture::width() const
+	{
+		return this->Storage.dimensions(0).x;
+	}
+
+	inline texture::size_type texture::height() const
+	{
+		return this->Storage.dimensions(0).y;
+	}
+
+	inline texture::size_type texture::depth() const
+	{
+		return this->Storage.dimensions(0).z;
+	}
+
 	inline texture::size_type texture::baseLayer() const
 	{
 		return this->BaseLayer;
@@ -283,7 +302,7 @@ namespace gli
 		size_type const offset = detail::imageAddressing(
 			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
-		return this->data<data_type>() + offset;
+		return this->Storage.data() + offset;
 	}
 
 	inline texture::size_type texture::compute_size() const

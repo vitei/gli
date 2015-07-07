@@ -72,7 +72,7 @@ int test_texture1D()
 	}
 
 	{
-		gli::texture1D TextureE(gli::levels(32), gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32));
+		gli::texture1D TextureE(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32));
 
 		*TextureE[TextureE.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
