@@ -50,23 +50,20 @@ namespace gli
 		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
-	inline texture1D::texture1D
-	(
-		storage const & Storage
-	)
-		: texture(Storage)
+	inline texture1D::texture1D(texture const & Texture)
+		: texture(Texture)
 	{}
 
 	inline texture1D::texture1D
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -78,7 +75,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			Texture.Storage, Texture.format(),
+			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
@@ -96,12 +93,7 @@ namespace gli
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
-
-	inline texture1D::operator storage() const
-	{
-		return this->Storage;
-	}
-
+/*
 	inline image texture1D::operator[](texture1D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
@@ -112,11 +104,11 @@ namespace gli
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
 	}
-
+*/
 	inline texture1D::dim_type texture1D::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture1D::dim_type(this->Storage.dimensions(this->baseLevel()).x);
+		return texture1D::dim_type(this->texture::dimensions(this->baseLevel()).x);
 	}
 }//namespace gli

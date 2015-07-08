@@ -41,20 +41,20 @@ namespace gli
 		: texture(1, 1, Levels, Format, Dimensions)
 	{}
 
-	inline texture3D::texture3D(storage const & Storage)
-		: texture(Storage)
+	inline texture3D::texture3D(texture const & Texture)
+		: texture(Texture)
 	{}
 
 	inline texture3D::texture3D
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -71,12 +71,7 @@ namespace gli
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
-
-	inline texture3D::operator storage() const
-	{
-		return this->Storage;
-	}
-
+/*
 	inline image texture3D::operator[](texture3D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
@@ -87,9 +82,9 @@ namespace gli
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
 	}
-
+*/
 	inline texture3D::dim_type texture3D::dimensions() const
 	{
-		return texture3D::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture3D::dim_type(this->texture::dimensions(this->baseLevel()));
 	}
 }//namespace gli

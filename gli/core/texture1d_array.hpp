@@ -38,7 +38,7 @@ namespace gli
 	{
 	public:
 		typedef storage::dim1_type dim_type;
-		typedef storage::texcoord1_type texcoord_type;
+		typedef texcoord1_type texcoord_type;
 
 	public:
 		texture1DArray();
@@ -56,13 +56,13 @@ namespace gli
 			format_type const & Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture1DArray view with an existing storage
+		/// Create a texture1DArray view with an existing texture
 		explicit texture1DArray(
-			storage const & Storage);
+			texture const & Texture);
 
-		/// Create a texture1DArray view with an existing storage
+		/// Create a texture1DArray view with an existing texture
 		explicit texture1DArray(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
@@ -79,7 +79,6 @@ namespace gli
 			texture1D const & Texture,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
 		texture1D operator[](size_type const & Layer) const;
 
 		dim_type dimensions() const;

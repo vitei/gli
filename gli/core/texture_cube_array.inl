@@ -52,20 +52,20 @@ namespace gli
 		: texture(Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline textureCubeArray::textureCubeArray(storage const & Storage)
-		: texture(Storage)
+	inline textureCubeArray::textureCubeArray(texture const & Texture)
+		: texture(Texture)
 	{}
 
 	inline textureCubeArray::textureCubeArray
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -110,17 +110,12 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline textureCubeArray::operator storage() const
-	{
-		return this->Storage;
-	}
-
 	inline textureCube textureCubeArray::operator[](size_type const & Layer) const
 	{
 		assert(Layer < this->layers());
 
 		return textureCube(
-			this->Storage, this->format(),
+			*this, this->format(),
 			this->baseLayer() + Layer, this->baseLayer() + Layer,
 			this->baseFace(), this->maxFace(),
 			this->baseLevel(), this->maxLevel());
@@ -128,6 +123,6 @@ namespace gli
 
 	inline textureCubeArray::dim_type textureCubeArray::dimensions() const
 	{
-		return textureCubeArray::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return textureCubeArray::dim_type(this->texture::dimensions(this->baseLevel()));
 	}
 }//namespace gli

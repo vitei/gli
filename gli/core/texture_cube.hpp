@@ -39,7 +39,7 @@ namespace gli
 	{
 	public:
 		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord3_type texcoord_type;
+		typedef texcoord3_type texcoord_type;
 
 	public:
 		textureCube();
@@ -57,13 +57,17 @@ namespace gli
 			format_type const & Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a textureCube view with an existing texture
+		explicit textureCube(
+			texture const & Texture);
+
+		/// Create a textureCube view with an existing storage
 		explicit textureCube(
 			storage const & Storage);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a textureCube view with an existing storage
 		explicit textureCube(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
@@ -87,7 +91,6 @@ namespace gli
 			texture2D const & Texture,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
 		texture2D operator[](size_type const & Face) const;
 
 		dim_type dimensions() const;

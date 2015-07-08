@@ -30,7 +30,6 @@
 
 // STD
 #include <vector>
-#include <queue>
 #include <string>
 #include <cassert>
 #include <cmath>
@@ -61,10 +60,6 @@ namespace gli
 		typedef dim3_t dim3_type;
 		typedef dim4_t dim4_type;
 		typedef dim3_type dim_type;
-		typedef texcoord1_t texcoord1_type;
-		typedef texcoord2_t texcoord2_type;
-		typedef texcoord3_t texcoord3_type;
-		typedef texcoord4_t texcoord4_type;
 		typedef size_t size_type;
 		typedef gli::format format_type;
 		typedef unsigned char data_type;

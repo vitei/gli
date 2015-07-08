@@ -36,7 +36,7 @@ namespace gli
 	{
 	public:
 		typedef storage::dim3_type dim_type;
-		typedef storage::texcoord3_type texcoord_type;
+		typedef texcoord3_type texcoord_type;
 
 	public:
 		texture3D();
@@ -54,11 +54,11 @@ namespace gli
 
 		/// Create a texture3D view with an existing storage
 		explicit texture3D(
-			storage const & Storage);
+			texture const & Texture);
 
 		/// Create a texture3D view with an existing storage
 		explicit texture3D(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer,
 			size_type MaxLayer,
@@ -73,8 +73,7 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		operator storage() const;
-		image operator[] (size_type const & Level) const;
+		texture3D operator[] (size_type const & Level) const;
 
 		dim_type dimensions() const;
 	};

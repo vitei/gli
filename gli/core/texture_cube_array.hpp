@@ -39,14 +39,14 @@ namespace gli
 	{
 	public:
 		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord4_type texcoord_type;
+		typedef texcoord4_type texcoord_type;
 
 	public:
 		textureCubeArray();
 
 		/// Create a textureCubeArray and allocate a new storage
 		explicit textureCubeArray(
-			size_type const & Layers, 
+			size_type const & Layers,
 			size_type const & Faces,
 			size_type const & Levels,
 			format_type const & Format,
@@ -54,18 +54,18 @@ namespace gli
 
 		/// Create a textureCubeArray and allocate a new storage with a complete mipmap chain
 		explicit textureCubeArray(
-			size_type const & Layers, 
+			size_type const & Layers,
 			size_type const & Faces,
 			format_type const & Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a texture2D view with an existing texture
 		explicit textureCubeArray(
-			storage const & Storage);
+			texture const & Texture);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Reference a subset of an exiting texture
 		explicit textureCubeArray(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer,
 			size_type MaxLayer,
@@ -98,7 +98,6 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		operator storage() const;
 		textureCube operator[] (size_type const & Layer) const;
 
 		dim_type dimensions() const;

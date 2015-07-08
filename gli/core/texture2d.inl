@@ -41,20 +41,20 @@ namespace gli
 		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline texture2D::texture2D(storage const & Storage)
-		: texture(Storage)
+	inline texture2D::texture2D(texture const & Texture)
+		: texture(Texture)
 	{}
 
 	inline texture2D::texture2D
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -66,7 +66,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			Texture.Storage, Texture.format(),
+			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
@@ -112,17 +112,12 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline texture2D::operator storage() const
-	{
-		return this->Storage;
-	}
-
-	inline image texture2D::operator[](texture2D::size_type const & Level) const
+	inline texture2D texture2D::operator[](texture2D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 
-		return image(
-			this->Storage,
+		return texture2D(
+			*this, this->format(),
 			this->baseLayer(), this->maxLayer(),
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
@@ -132,7 +127,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return texture2D::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2D::dim_type(this->texture::dimensions(this->baseLevel()));
 	}
 
 	template <typename genType>

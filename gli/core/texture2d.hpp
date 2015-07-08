@@ -41,7 +41,7 @@ namespace gli
 	{
 	public:
 		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord2_type texcoord_type;
+		typedef texcoord2_type texcoord_type;
 
 	public:
 		texture2D();
@@ -57,40 +57,34 @@ namespace gli
 			format_type const & Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a texture2D view with an existing texture
 		explicit texture2D(
-			storage const & Storage);
+			texture const & Texture);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a texture2D view with an existing texture
 		explicit texture2D(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture2D view, reference a subset of an existing texture2D instance
 		explicit texture2D(
 			texture2D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture2D view, reference a subset of an existing texture2DArray instance
 		explicit texture2D(
 			texture2DArray const & Texture,
 			size_type const & BaseLayer,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture view, reference a subset of an existing textureCube instance
 		explicit texture2D(
 			textureCube const & Texture,
 			size_type const & BaseFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture view, reference a subset of an existing textureCubeArray instance
 		explicit texture2D(
@@ -98,8 +92,7 @@ namespace gli
 			size_type const & BaseLayer, size_type const & BaseFace,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
-		image operator[] (size_type const & Level) const;
+		texture2D operator[] (size_type const & Level) const;
 
 		dim_type dimensions() const;
 		glm::ivec4 swizzle() const;

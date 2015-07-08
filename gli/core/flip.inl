@@ -54,7 +54,7 @@ inline image flip(image const & Image)
 
 }
 */
-
+/*
 template <>
 inline texture2D flip(texture2D const & Texture)
 {
@@ -85,5 +85,5 @@ inline texture2DArray flip(texture2DArray const & Texture)
 
 	return Flip;
 }
-
+*/
 }//namespace gli

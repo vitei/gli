@@ -139,7 +139,7 @@ namespace detail
 	};
 }//namespace detail
 
-inline storage load_dds(char const * Data, std::size_t Size)
+inline texture load_dds(char const * Data, std::size_t Size)
 {
 	assert(Data && (Size >= (sizeof(char[4]) + sizeof(detail::ddsHeader))));
 
@@ -233,16 +233,16 @@ inline storage load_dds(char const * Data, std::size_t Size)
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
 		DepthCount = HeaderDesc.depth;
 
-	storage Storage(
+	texture Texture(
 		HeaderDesc10.arraySize, FaceCount, MipMapCount, Format,
 		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
 
-	std::memcpy(Storage.data(), Data + Offset, Storage.size());
+	std::memcpy(Texture.data(), Data + Offset, Texture.size());
 
-	return Storage;
+	return Texture;
 }
 
-inline storage load_dds(char const * Filename)
+inline texture load_dds(char const * Filename)
 {
 	FILE* File = std::fopen(Filename, "rb");
 	assert(File);
@@ -260,7 +260,7 @@ inline storage load_dds(char const * Filename)
 	return load_dds(&Data[0], Data.size());
 }
 
-inline storage load_dds(std::string const & Filename)
+inline texture load_dds(std::string const & Filename)
 {
 	return load_dds(Filename.c_str());
 }
