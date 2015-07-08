@@ -71,18 +71,18 @@ namespace gli
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
-/*
+
 	inline image texture3D::operator[](texture3D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 
 		return image(
-			this->Storage,
+			this->Impl,
 			this->baseLayer(), this->maxLayer(),
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
 	}
-*/
+
 	inline texture3D::dim_type texture3D::dimensions() const
 	{
 		return texture3D::dim_type(this->texture::dimensions(this->baseLevel()));

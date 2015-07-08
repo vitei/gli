@@ -37,7 +37,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(1, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(1, Faces, gli::levels(Dimensions), Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline textureCube::textureCube
@@ -47,7 +47,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(1, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(1, Faces, Levels, Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline textureCube::textureCube(texture const & Texture)

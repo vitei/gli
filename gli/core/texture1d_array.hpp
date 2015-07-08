@@ -37,7 +37,7 @@ namespace gli
 	class texture1DArray : public texture
 	{
 	public:
-		typedef storage::dim1_type dim_type;
+		typedef dim1_type dim_type;
 		typedef texcoord1_type texcoord_type;
 
 	public:

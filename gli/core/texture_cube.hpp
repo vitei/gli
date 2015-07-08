@@ -38,7 +38,7 @@ namespace gli
 	class textureCube : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
+		typedef dim2_type dim_type;
 		typedef texcoord3_type texcoord_type;
 
 	public:
@@ -60,10 +60,6 @@ namespace gli
 		/// Create a textureCube view with an existing texture
 		explicit textureCube(
 			texture const & Texture);
-
-		/// Create a textureCube view with an existing storage
-		explicit textureCube(
-			storage const & Storage);
 
 		/// Create a textureCube view with an existing storage
 		explicit textureCube(

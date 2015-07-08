@@ -39,7 +39,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions.x, 1, 1))
+		: texture(1, 1, Levels, Format, dim3_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D
@@ -47,7 +47,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions.x, 1, 1))
+		: texture(1, 1, gli::levels(Dimensions), Format, dim3_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D(texture const & Texture)
@@ -93,18 +93,18 @@ namespace gli
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
-/*
+
 	inline image texture1D::operator[](texture1D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 
 		return image(
-			this->Storage,
+			this->Impl,
 			this->baseLayer(), this->maxLayer(),
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
 	}
-*/
+
 	inline texture1D::dim_type texture1D::dimensions() const
 	{
 		assert(!this->empty());

@@ -28,6 +28,7 @@
 
 namespace gli
 {
+/*
 	inline storage::impl::impl() :
 		Layers(0),
 		Faces(0),
@@ -168,7 +169,7 @@ namespace gli
 		// All the faces have the same size.
 		return this->face_size(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
 	}
-
+*/
 /*
 	inline storage extractLayers
 	(

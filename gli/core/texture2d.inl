@@ -34,11 +34,11 @@ namespace gli
 	{}
 
 	inline texture2D::texture2D(format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(1, 1, gli::levels(Dimensions), Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline texture2D::texture2D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(1, 1, Levels, Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline texture2D::texture2D(texture const & Texture)
@@ -112,12 +112,12 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline texture2D texture2D::operator[](texture2D::size_type const & Level) const
+	inline image texture2D::operator[](texture2D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 
-		return texture2D(
-			*this, this->format(),
+		return image(
+			this->Impl,
 			this->baseLayer(), this->maxLayer(),
 			this->baseFace(), this->maxFace(),
 			this->baseLevel() + Level, this->baseLevel() + Level);
@@ -135,7 +135,7 @@ namespace gli
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(block_size(this->format()) >= sizeof(genType));
 
 		dim_type const Dimensions(this->dimensions());
 		size_type const Address = TexelCoord.x + TexelCoord.y * Dimensions.x;

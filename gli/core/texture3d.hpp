@@ -35,7 +35,7 @@ namespace gli
 	class texture3D : public texture
 	{
 	public:
-		typedef storage::dim3_type dim_type;
+		typedef dim3_type dim_type;
 		typedef texcoord3_type texcoord_type;
 
 	public:
@@ -73,7 +73,7 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		texture3D operator[] (size_type const & Level) const;
+		image operator[](size_type const & Level) const;
 
 		dim_type dimensions() const;
 	};

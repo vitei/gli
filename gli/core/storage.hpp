@@ -52,6 +52,7 @@ static_assert(GLM_VERSION >= 97, "GLI requires at least GLM 0.9.7");
 
 namespace gli
 {
+/*
 	class storage
 	{
 	public:
@@ -118,7 +119,7 @@ namespace gli
 
 		std::shared_ptr<impl> Impl;
 	};
-
+*/
 /*
 	storage extractLayers(
 		storage const & Storage, 

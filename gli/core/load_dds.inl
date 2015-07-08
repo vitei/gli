@@ -224,18 +224,18 @@ inline texture load_dds(char const * Data, std::size_t Size)
 
 	assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
-	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
-	storage::size_type FaceCount(1);
+	texture::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
+	texture::size_type FaceCount(1);
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP)
 		FaceCount = int(glm::bitCount(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP_ALLFACES));
 
-	storage::size_type DepthCount = 1;
+	texture::size_type DepthCount = 1;
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
 		DepthCount = HeaderDesc.depth;
 
 	texture Texture(
 		HeaderDesc10.arraySize, FaceCount, MipMapCount, Format,
-		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
+		texture::dim3_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
 
 	std::memcpy(Texture.data(), Data + Offset, Texture.size());
 

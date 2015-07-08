@@ -39,7 +39,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(Layers, 1, gli::levels(Dimensions), Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline texture2DArray::texture2DArray
@@ -49,7 +49,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(Layers, 1, Levels, Format, dim3_type(Dimensions, 1))
 	{}
 
 	inline texture2DArray::texture2DArray(texture const & Texture)

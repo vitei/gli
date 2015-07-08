@@ -103,27 +103,6 @@ namespace gli
 		void clear(genType const & Texel);
 
 	private:
-		struct impl
-		{
-			typedef dim3_type dim_type;
-
-			impl();
-
-			explicit impl(
-				size_type const & Layers, 
-				size_type const & Faces,
-				size_type const & Levels,
-				format_type const & Format,
-				dim_type const & Dimensions);
-
-			size_type const Layers;
-			size_type const Faces;
-			size_type const Levels;
-			format_type const Format;
-			dim_type const Dimensions;
-			std::vector<data_type> Data;
-		};
-
 		void * const compute_data();
 		size_type compute_size() const;
 
@@ -135,8 +114,8 @@ namespace gli
 			size_type const & BaseFace, size_type const & MaxFace,
 			size_type const & BaseLevel, size_type const & MaxLevel) const;
 		size_type imageAddressing(
-			size_type const & LayerOffset, 
-			size_type const & FaceOffset, 
+			size_type const & LayerOffset,
+			size_type const & FaceOffset,
 			size_type const & LevelOffset);
 
 	protected:
@@ -363,7 +342,10 @@ namespace gli
 	{
 		assert(Level < this->levels());
 
-		dim3_type const BlockDimensions(gli::block_dimensions_x(this->format()), gli::block_dimensions_y(this->format()), gli::block_dimensions_z(this->format()));
+		dim3_type const BlockDimensions(
+			gli::block_dimensions_x(this->format()),
+			gli::block_dimensions_y(this->format()),
+			gli::block_dimensions_z(this->format()));
 		dim3_type const Dimensions = this->dimensions(Level);
 		dim3_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
 		std::size_t const BlockSize = gli::block_size(this->format());
@@ -379,10 +361,10 @@ namespace gli
 		size_type FaceSize(0);
 
 		// The size of a face is the sum of the size of each level.
-		for(storage::size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
+		for(size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
 			FaceSize += this->level_size(Level);
 
-		return FaceSize;// * TexelSize;
+		return FaceSize;
 	}
 
 	inline texture::size_type texture::layer_size(
@@ -408,37 +390,15 @@ namespace gli
 		assert(FaceOffset < this->faces());
 		assert(LevelOffset < this->levels());
 
-		storage::size_type LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
-		storage::size_type FaceSize = this->face_size(0, this->levels() - 1);
-		storage::size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
+		size_type LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
+		size_type FaceSize = this->face_size(0, this->levels() - 1);
+		size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
 
-		for(storage::size_type Level(0); Level < LevelOffset; ++Level)
+		for(size_type Level(0); Level < LevelOffset; ++Level)
 			BaseOffset += this->level_size(Level);
 
 		return BaseOffset;
 	}
-
-	inline texture::impl::impl() :
-		Layers(0),
-		Faces(0),
-		Levels(0),
-		Format(static_cast<gli::format>(FORMAT_INVALID)),
-		Dimensions(0)
-	{}
-
-	inline texture::impl::impl(
-		size_type const & Layers, 
-		size_type const & Faces,
-		size_type const & Levels,
-		format_type const & Format,
-		dim_type const & Dimensions
-	)
-	:	Layers(Layers),
-		Faces(Faces),
-		Levels(Levels),
-		Format(Format),
-		Dimensions(Dimensions)
-	{}
 }//namespace gli
 
 #include "texture1d.hpp"

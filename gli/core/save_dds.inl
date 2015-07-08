@@ -85,7 +85,7 @@ namespace gli
 		if(Texture.depth() > 1)
 			HeaderDesc.cubemapFlags |= detail::DDSCAPS2_VOLUME;
 
-		storage::size_type DepthCount = 1;
+		texture::size_type DepthCount = 1;
 		if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
 				DepthCount = HeaderDesc.depth;
 

@@ -27,7 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 namespace gli{
-
+/*
 inline storage copy(storage const & Storage)
 {
 	storage Result(
@@ -41,7 +41,7 @@ inline storage copy(storage const & Storage)
 		
 	return Result;
 }
-
+*/
 /*
 inline image copy(image const & Image)
 {

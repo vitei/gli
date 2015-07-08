@@ -40,7 +40,7 @@ namespace gli
 	class texture2D : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
+		typedef dim2_type dim_type;
 		typedef texcoord2_type texcoord_type;
 
 	public:
@@ -92,7 +92,7 @@ namespace gli
 			size_type const & BaseLayer, size_type const & BaseFace,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		texture2D operator[] (size_type const & Level) const;
+		image operator[] (size_type const & Level) const;
 
 		dim_type dimensions() const;
 		glm::ivec4 swizzle() const;

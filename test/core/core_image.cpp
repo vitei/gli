@@ -57,27 +57,8 @@ int test_image_data()
 	Error += !ImageB.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::storage Storage(
-		2, 1, 1,
-		gli::FORMAT_RGBA8_UNORM,
-		gli::storage::dim3_type(1));
-
-	std::vector<glm::u8vec4> Data(2);
-	Data[0] = glm::u8vec4(  0, 127, 255, 255);
-	Data[1] = glm::u8vec4(255, 127,   0, 255);
-
-	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
-
-	gli::image ImageC(Storage, 0, 0, 0, 0, 0, 1);
-	Error += !ImageC.empty() ? 0 : 1;
-	assert(!Error);
-
 	glm::u8vec4 ValueB = *(ImageB.data<glm::u8vec4>() + 0);
-	glm::u8vec4 ValueC = *(ImageC.data<glm::u8vec4>() + 1);
-	glm::u8vec4 ValueD = *(ImageC.data<glm::u8vec4>() + 0);
-
-	Error += glm::all(glm::equal(ValueB, ValueC)) ? 0 : 1;
-	assert(!Error);
+	Error += glm::all(glm::equal(ValueB, glm::u8vec4(255, 127, 0, 255))) ? 1 : 0;
 
 	return Error;
 }

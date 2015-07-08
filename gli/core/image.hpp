@@ -37,18 +37,147 @@
 
 namespace gli
 {
+	struct impl
+	{
+		typedef unsigned char data_type;
+		typedef dim3_t dim_type;
+		typedef size_t size_type;
+		typedef gli::format format_type;
+
+		impl();
+
+		explicit impl(
+			size_type const & Layers,
+			size_type const & Faces,
+			size_type const & Levels,
+			format_type const & Format,
+			dim_type const & Dimensions);
+
+		size_type level_size(
+			size_type const & Level) const;
+		size_type face_size(
+			size_type const & BaseLevel, size_type const & MaxLevel) const;
+		size_type layer_size(
+			size_type const & BaseFace, size_type const & MaxFace,
+			size_type const & BaseLevel, size_type const & MaxLevel) const;
+		size_type imageAddressing(
+			size_type const & LayerOffset,
+			size_type const & FaceOffset,
+			size_type const & LevelOffset);
+
+		dim_type dimensions(size_type const & Level) const;
+
+		size_type const Layers;
+		size_type const Faces;
+		size_type const Levels;
+		format_type const Format;
+		dim_type const Dimensions;
+		std::vector<data_type> Data;
+	};
+
+	inline impl::impl() :
+		Layers(0),
+		Faces(0),
+		Levels(0),
+		Format(static_cast<gli::format>(FORMAT_INVALID)),
+		Dimensions(0)
+	{}
+
+	inline impl::impl(
+		size_type const & Layers,
+		size_type const & Faces,
+		size_type const & Levels,
+		format_type const & Format,
+		dim_type const & Dimensions
+	)
+		: Layers(Layers)
+		, Faces(Faces)
+		, Levels(Levels)
+		, Format(Format)
+		, Dimensions(Dimensions)
+	{}
+
+	inline impl::dim_type impl::dimensions(size_type const & Level) const
+	{
+		assert(Level < this->Levels);
+
+		return glm::max(this->Dimensions >> dim_type(static_cast<glm::uint>(Level)), dim_type(static_cast<glm::uint>(1)));
+	}
+
+	inline impl::size_type impl::level_size(size_type const & Level) const
+	{
+		assert(Level < this->Levels);
+
+		dim_type const BlockDimensions(
+			gli::block_dimensions_x(this->Format),
+			gli::block_dimensions_y(this->Format),
+			gli::block_dimensions_z(this->Format));
+		dim_type const Dimensions = this->dimensions(Level);
+		dim_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
+		std::size_t const BlockSize = gli::block_size(this->Format);
+
+		return BlockSize * glm::compMul(Multiple / BlockDimensions);
+	}
+
+	inline impl::size_type impl::face_size(
+		size_type const & BaseLevel, size_type const & MaxLevel) const
+	{
+		assert(MaxLevel < this->Levels);
+		
+		size_type FaceSize(0);
+
+		// The size of a face is the sum of the size of each level.
+		for(size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
+			FaceSize += this->level_size(Level);
+
+		return FaceSize;
+	}
+
+	inline impl::size_type impl::layer_size(
+		size_type const & BaseFace, size_type const & MaxFace,
+		size_type const & BaseLevel, size_type const & MaxLevel) const
+	{
+		assert(MaxFace < this->Faces);
+		assert(MaxLevel < this->Levels);
+
+		// The size of a layer is the sum of the size of each face.
+		// All the faces have the same size.
+		return this->face_size(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
+	}
+
+	inline impl::size_type impl::imageAddressing
+	(
+		impl::size_type const & LayerOffset,
+		impl::size_type const & FaceOffset,
+		impl::size_type const & LevelOffset
+	)
+	{
+		assert(LayerOffset < this->Layers);
+		assert(FaceOffset < this->Faces);
+		assert(LevelOffset < this->Levels);
+
+		size_type LayerSize = this->layer_size(0, this->Faces - 1, 0, this->Levels - 1);
+		size_type FaceSize = this->face_size(0, this->Levels - 1);
+		size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
+
+		for(size_type Level(0); Level < LevelOffset; ++Level)
+			BaseOffset += this->level_size(Level);
+
+		return BaseOffset;
+	}
+
 	/// Image
 	class image
 	{
 	public:
-		typedef storage::dim1_type dim1_type;
-		typedef storage::dim2_type dim2_type;
-		typedef storage::dim3_type dim3_type;
-		typedef storage::dim3_type dim_type;
-		typedef storage::size_type size_type;
-		typedef storage::size_type layer_type;
-		typedef storage::size_type level_type;
-		typedef storage::size_type face_type;
+		typedef dim1_t dim1_type;
+		typedef dim2_t dim2_type;
+		typedef dim3_t dim3_type;
+		typedef dim3_type dim_type;
+		typedef size_t size_type;
+		typedef size_t layer_type;
+		typedef size_t level_type;
+		typedef size_t face_type;
 
 		image();
 
@@ -59,13 +188,10 @@ namespace gli
 
 		/// Reference an exiting storage constructor
 		explicit image(
-			storage const & Storage,
+			std::shared_ptr<impl> Impl,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
-
-		/// Cast an image into a storage
-		operator storage() const;
 
 		bool empty() const;
 		dim_type dimensions() const;
@@ -97,9 +223,9 @@ namespace gli
 		size_type maxLevel() const;
 
 	private:
-		storage Storage;
-		size_type BaseLayer; 
-		size_type MaxLayer; 
+		std::shared_ptr<impl> Impl;
+		size_type BaseLayer;
+		size_type MaxLayer;
 		size_type BaseFace;
 		size_type MaxFace;
 		size_type BaseLevel;
