@@ -1,0 +1,72 @@
+------------------------------------------------------------------------------
+class texture
+{
+public:
+	texture();
+
+	texture(
+		target_type Target,
+		format_type Format,
+		dim_type const & Dimensions,
+		size_type Layers,
+		size_type Faces,
+		size_type Levels);
+
+	texture(
+		texture const & Texture,
+		target_type Target,
+		format_type Format,
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel);
+
+	texture(
+		texture const & Texture,
+		target_type Target,
+		format_type Format);
+
+	virtual ~texture();
+
+	bool empty() const;
+	format_type format() const;
+	
+	size_type base_layer() const;
+	size_type max_layer() const;
+	size_type layers() const;
+
+	size_type base_face() const;
+	size_type max_face() const;
+	size_type faces() const;
+
+	size_type base_level() const;
+	size_type max_level() const;
+	size_type levels() const;
+
+	dim_type dimensions(size_type Level = 0) const;
+
+	size_type size() const;
+	template <typename genType>
+	size_type size() const;
+
+	void * data();
+	template <typename genType>
+	genType * data();
+	void const * data() const;
+	template <typename genType>
+	genType const * data() const;
+
+	void clear();
+	template <typename genType>
+	void clear(genType const & Texel);
+
+	target_type target() const{return this->Target;}
+
+	size_type offset(
+		size_type Layer,
+		size_type Face,
+		size_type Level) const;
+
+	size_type level_size(size_type Level) const;
+};
+
+------------------------------------------------------------------------------

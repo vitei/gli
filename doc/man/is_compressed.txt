@@ -1,0 +1,41 @@
+is_compressed(3)
+==================
+
+Name
+----
+is_compressed - Query whether a format is a compressed format.
+
+C++ Specification
+-----------------
+
+include::../proto/is_compressed.txt[]
+
+Parameters
+----------
+
+format::
+    The format to check.
+
+Description
+-----------
+
+is_compressed queries whether a specific format is compressed format.
+
+include::../proto/texture.txt[]
+
+Return Value
+------------
+
+Return true if the passed format is a compressed texture format.
+
+Errors
+------
+
+Upon failure, fname:is_compressed may throw one of the following asserts:
+
+[width="100%",options="header"]
+|=====
+| Error | Meaning
+| ename:GLI_ERROR_INVALID_FORMAT | The format parameter was not a valid format.
+|=====
+
