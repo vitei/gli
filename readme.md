@@ -164,6 +164,7 @@ GLuint createTexture(char const* Filename)
 - Added sampler texel fetch and texel write
 - Added texture lod
 - Added sampler clear
+- Added DDS GLI format extension
 - Reordered formats
 - Fixed PVRTC2 support
 - Fixed luminance and alpha translation to OpenGL #56
